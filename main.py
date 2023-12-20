@@ -375,25 +375,18 @@ class Stock_HyperODE:
                 cur_test_perf = evaluate(cur_test_pred, cur_test_gt, cur_test_mask)
 
 
-                print('\t Test performance:', 'sharpe5:', cur_test_perf['sharpe5'], 'ndcg_score_top5:',
-                      cur_test_perf['ndcg_score_top5'],'mrrt',cur_test_perf['mrrt'],'Test loss',test_loss / (self.test_index - self.valid_index))
+                print('\t Test performance:', 'sharpe1:', cur_test_perf['sharpe1'], 'sharpe5:', cur_test_perf['sharpe5'], 'sharpe10:', cur_test_perf['sharpe10'], 'ndcg_score_top5:',
+                      cur_test_perf['ndcg_score_top5'], 'btl:', cur_test_perf['btl'],'mrrt',cur_test_perf['mrrt'],'Test loss',test_loss / (self.test_index - self.valid_index))
                 np.set_printoptions(threshold=sys.maxsize)
                 if test_loss / (self.test_index - self.valid_index) < best_test_loss:
                     best_test_loss = test_loss / (self.test_index - self.valid_index)
-                    best_test_gt=copy.copy(cur_test_gt)
-                    best_test_pred=copy.copy(cur_test_pred)
-                    best_test_perf = copy.copy(cur_test_perf)
                     early_stop_count=0
                 else:
                     early_stop_count+=1
-                if early_stop_count>=early_stop_n:
-                    print('early_stop_count',early_stop_count)
-                    break
 
 
-            print('\t epoch',i,' best performance:', 'sharpe5:', best_test_perf['sharpe5'], 'ndcg_score_top5:',
-                  best_test_perf['ndcg_score_top5'],'mmrt',best_test_perf['mrrt'])
-            print('\t epoch', i, 'bestsharpe5:', best_test_perf['sharpe5_max'])
+
+
 
     def update_model(self, parameters):
         for name, value in parameters.items():
@@ -445,7 +438,8 @@ if __name__ == '__main__':
             tickers_fname=args.t,
             n_node=args.node,
             parameters=parameters,
-            steps=1, epochs=100,
+            steps=1, epochs=30,
+            # nyse more
             early_stop_count=0 ,
             early_stop_n=500,
             batch_size=None, gpu=args.gpu,
