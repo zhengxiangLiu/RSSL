@@ -1,7 +1,3 @@
-'''
-create by XinZhu Zhou
-2022/1/23
-'''
 import torch
 import random
 import argparse
@@ -438,7 +434,7 @@ if __name__ == '__main__':
             tickers_fname=args.t,
             n_node=args.node,
             parameters=parameters,
-            steps=1, epochs=30,
+            steps=1, epochs=500,
             # nyse more
             early_stop_count=0 ,
             early_stop_n=500,
